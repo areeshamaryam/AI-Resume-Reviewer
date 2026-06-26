@@ -1,4 +1,5 @@
 import Resume from "../models/resume.js";
+import extractTextFromPDF from "../utils/pdfParser.js";
 
 export const uploadResume = async (req, res) => {
   try {
@@ -8,12 +9,14 @@ export const uploadResume = async (req, res) => {
         message: "Please upload a PDF resume.",
       });
     }
+    const extractedText = await extractTextFromPDF(req.file.path);
 
     // Create a new resume file
     const resume = new Resume({
       user: req.user.id,
       fileName: req.file.filename,
       filePath: req.file.path,
+      extractedText,
     });
 
     // Save to MongoDB
