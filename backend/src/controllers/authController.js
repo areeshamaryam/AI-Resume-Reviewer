@@ -47,6 +47,19 @@ export const registerUser = async (req, res) => {
   }
 };
 
+export const getProfile = async (req, res) => {
+  try {
+    res.status(200).json({
+      message: "Protected route accessed successfully.",
+      user: req.user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 //  LOGIN Existing user
 export const loginUser = async (req, res) => {
   try {
