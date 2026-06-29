@@ -50,3 +50,18 @@ export const uploadResume = async (req, res) => {
     });
   }
 };
+export const getMyResumes = async (req, res) => {
+  try {
+    const resumes = await Resume.find({
+      user: req.user.id,
+    }).sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json(resumes);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
