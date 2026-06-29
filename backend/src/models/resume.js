@@ -28,9 +28,29 @@ const resumeSchema = new mongoose.Schema(
       default: 0,
     },
 
-    feedback: {
+    summary: {
       type: String,
       default: "",
+    },
+
+    strengths: {
+      type: [String],
+      default: [],
+    },
+
+    weaknesses: {
+      type: [String],
+      default: [],
+    },
+
+    missingSkills: {
+      type: [String],
+      default: [],
+    },
+
+    suggestions: {
+      type: [String],
+      default: [],
     },
   },
   {
