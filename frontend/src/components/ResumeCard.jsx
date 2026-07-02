@@ -1,6 +1,25 @@
 import { Link } from "react-router-dom";
+import API from "../services/api";
 
-function ResumeCard({ resume }) {
+function ResumeCard({ resume, onDelete }) {
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this resume?",
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await API.delete(`/resume/${resume._id}`);
+
+      onDelete(resume._id);
+    } catch (err) {
+      console.error(err);
+
+      alert("Failed to delete resume.");
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
       <h3 className="font-bold text-xl text-gray-800 truncate">
@@ -24,7 +43,10 @@ function ResumeCard({ resume }) {
           View Report
         </Link>
 
-        <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">
+        <button
+          onClick={handleDelete}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+        >
           Delete
         </button>
       </div>

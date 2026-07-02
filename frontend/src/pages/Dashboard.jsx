@@ -51,7 +51,15 @@ function Dashboard() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {resumes.map((resume) => (
-                <ResumeCard key={resume._id} resume={resume} />
+                <ResumeCard
+                  key={resume._id}
+                  resume={resume}
+                  onDelete={(id) => {
+                    setResumes((prev) =>
+                      prev.filter((item) => item._id !== id),
+                    );
+                  }}
+                />
               ))}
             </div>
           )}
