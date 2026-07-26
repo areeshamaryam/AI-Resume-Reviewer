@@ -1,24 +1,33 @@
 import Resume from "../models/resume.js";
 import extractTextFromPDF from "../utils/pdfParser.js";
 import { analyzeResume } from "../services/geminiService.js";
+
+// Upload Resume
 export const uploadResume = async (req, res) => {
   try {
-    // Check if a file was uploaded
     if (!req.file) {
       return res.status(400).json({
         message: "Please upload a PDF resume.",
       });
     }
+
+    // Extract PDF text
     const extractedText = await extractTextFromPDF(req.file.path);
+
+    // Analyze using Gemini
     const analysis = await analyzeResume(extractedText);
 
     const aiResult = JSON.parse(analysis);
 
-    // Create a new resume file
+    // Save Resume
     const resume = new Resume({
       user: req.user.id,
 
+      // Stored filename on server
       fileName: req.file.filename,
+
+      // Original filename uploaded by user
+      originalName: req.file.originalname,
 
       filePath: req.file.path,
 
@@ -37,7 +46,6 @@ export const uploadResume = async (req, res) => {
       suggestions: aiResult.suggestions,
     });
 
-    // Save to MongoDB
     await resume.save();
 
     res.status(201).json({
@@ -45,11 +53,15 @@ export const uploadResume = async (req, res) => {
       resume,
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       message: error.message,
     });
   }
 };
+
+// Get All Resumes
 export const getMyResumes = async (req, res) => {
   try {
     const resumes = await Resume.find({
@@ -65,6 +77,8 @@ export const getMyResumes = async (req, res) => {
     });
   }
 };
+
+// Get Resume By ID
 export const getResumeById = async (req, res) => {
   try {
     const resume = await Resume.findOne({
@@ -85,6 +99,8 @@ export const getResumeById = async (req, res) => {
     });
   }
 };
+
+// Delete Resume
 export const deleteResume = async (req, res) => {
   try {
     const resume = await Resume.findOneAndDelete({

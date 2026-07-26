@@ -1,28 +1,42 @@
 import PDFParser from "pdf2json";
 
-const extractTextFromPDF = (filePath) => {
+const parsePDF = (filePath) => {
   return new Promise((resolve, reject) => {
     const pdfParser = new PDFParser();
 
     pdfParser.on("pdfParser_dataError", (errData) => {
-      reject(new Error(errData.parserError));
+      reject(errData.parserError);
     });
 
     pdfParser.on("pdfParser_dataReady", (pdfData) => {
-      let text = "";
+      try {
+        let text = "";
 
-      pdfData.Pages.forEach((page) => {
-        page.Texts.forEach((textItem) => {
-          text += decodeURIComponent(textItem.R[0].T) + " ";
+        pdfData.Pages.forEach((page) => {
+          page.Texts.forEach((textItem) => {
+            if (textItem.R) {
+              textItem.R.forEach((item) => {
+                try {
+                  text += decodeURIComponent(item.T) + " ";
+                } catch (e) {
+                  // If decoding fails, use the raw text instead
+                  text += item.T + " ";
+                }
+              });
+            }
+          });
+
+          text += "\n";
         });
-        text += "\n";
-      });
 
-      resolve(text);
+        resolve(text);
+      } catch (error) {
+        reject(error);
+      }
     });
 
     pdfParser.loadPDF(filePath);
   });
 };
 
-export default extractTextFromPDF;
+export default parsePDF;
