@@ -24,6 +24,25 @@ const resumeSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    jobTitle: {
+      type: String,
+      default: "",
+    },
+
+    jobDescription: {
+      type: String,
+      default: "",
+    },
+
+    jobMatchScore: {
+      type: Number,
+      default: 0,
+    },
+
+    matchedSkills: {
+      type: [String],
+      default: [],
+    },
 
     atsScore: {
       type: Number,

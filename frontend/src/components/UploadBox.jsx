@@ -116,7 +116,7 @@ function UploadBox({ onUploadSuccess }) {
       <div className="mt-8 space-y-5">
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-2">
-            Target Job Title (Optional)
+            Target Job Title
           </label>
 
           <input
@@ -131,7 +131,7 @@ function UploadBox({ onUploadSuccess }) {
 
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-2">
-            Job Description (Optional)
+            Job Description
           </label>
 
           <textarea

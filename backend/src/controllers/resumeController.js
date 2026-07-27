@@ -14,9 +14,15 @@ export const uploadResume = async (req, res) => {
     // Extract PDF text
     const extractedText = await extractTextFromPDF(req.file.path);
 
-    // Analyze using Gemini
-    const analysis = await analyzeResume(extractedText);
+    // Get job details from frontend
+    const { jobTitle, jobDescription } = req.body;
 
+    // Analyze using Gemini
+    const analysis = await analyzeResume(
+      extractedText,
+      jobTitle,
+      jobDescription,
+    );
     const aiResult = JSON.parse(analysis);
 
     // Save Resume
@@ -32,8 +38,14 @@ export const uploadResume = async (req, res) => {
       filePath: req.file.path,
 
       extractedText,
+      jobTitle,
+      jobDescription,
 
-      atsScore: aiResult.atsScore,
+      atsScore: aiResult.jobMatchScore,
+
+      jobMatchScore: aiResult.jobMatchScore,
+
+      matchedSkills: aiResult.matchedSkills,
 
       summary: aiResult.summary,
 
