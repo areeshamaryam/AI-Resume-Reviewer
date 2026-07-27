@@ -7,9 +7,12 @@ function UploadBox({ onUploadSuccess }) {
   const inputRef = useRef();
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [jobTitle, setJobTitle] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("Analyzing Resume...");
   const [progress, setProgress] = useState(0);
+  const [analysisComplete, setAnalysisComplete] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -18,7 +21,6 @@ function UploadBox({ onUploadSuccess }) {
       interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 95) return prev;
-
           return prev + Math.random() * 6;
         });
       }, 350);
@@ -29,10 +31,16 @@ function UploadBox({ onUploadSuccess }) {
 
   const handleFile = (e) => {
     setSelectedFile(e.target.files[0]);
+    setAnalysisComplete(false);
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) return;
+    if (!selectedFile) {
+      toast("Please upload a resume first.", {
+        icon: "⚠️",
+      });
+      return;
+    }
 
     try {
       setLoading(true);
@@ -40,9 +48,12 @@ function UploadBox({ onUploadSuccess }) {
       setLoadingText("Analyzing Resume...");
 
       const formData = new FormData();
-      formData.append("resume", selectedFile);
 
-      const res = await API.post("/resume/upload", formData, {
+      formData.append("resume", selectedFile);
+      formData.append("jobTitle", jobTitle);
+      formData.append("jobDescription", jobDescription);
+
+      await API.post("/resume/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -50,21 +61,20 @@ function UploadBox({ onUploadSuccess }) {
 
       setProgress(100);
       setLoadingText("Analysis Complete!");
+      setAnalysisComplete(true);
 
       toast.success("Resume analyzed successfully!");
 
-      await new Promise((resolve) => setTimeout(resolve, 900));
-
-      setSelectedFile(null);
-
-      inputRef.current.value = "";
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (onUploadSuccess) {
         await onUploadSuccess();
       }
+
+      setSelectedFile(null);
+      inputRef.current.value = "";
     } catch (err) {
       console.error(err);
-
       toast.error(err.response?.data?.message || "Upload Failed");
     } finally {
       setLoading(false);
@@ -74,24 +84,24 @@ function UploadBox({ onUploadSuccess }) {
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-10">
-      <h2 className="text-3xl font-bold text-gray-800 mb-3">Upload Resume</h2>
+    <div className="bg-white/80 backdrop-blur-md border border-slate-200 rounded-3xl shadow-sm p-10">
+      <h2 className="text-3xl font-bold text-slate-900 mb-3">Upload Resume</h2>
 
-      <p className="text-gray-500 mb-8">
+      <p className="text-slate-500 mb-8">
         Upload your resume in PDF format and receive an AI-powered ATS report.
       </p>
 
       <div
         onClick={() => !loading && inputRef.current.click()}
-        className="border-2 border-dashed border-blue-300 hover:border-blue-600 transition-all duration-300 cursor-pointer rounded-2xl p-12 flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100"
+        className="border-2 border-dashed border-indigo-300 hover:border-indigo-500 transition-all duration-300 cursor-pointer rounded-2xl p-12 flex flex-col items-center justify-center bg-gradient-to-br from-indigo-50 to-slate-50 hover:shadow-md"
       >
-        <FaCloudUploadAlt className="text-blue-600 mb-5" size={70} />
+        <FaCloudUploadAlt className="text-indigo-600 mb-5" size={68} />
 
-        <h3 className="text-2xl font-semibold text-gray-800">
+        <h3 className="text-2xl font-semibold text-slate-900">
           Upload Your Resume
         </h3>
 
-        <p className="text-gray-500 mt-2">Supports PDF • Maximum 5 MB</p>
+        <p className="text-slate-500 mt-2">Supports PDF • Maximum 5 MB</p>
 
         <input
           ref={inputRef}
@@ -103,50 +113,93 @@ function UploadBox({ onUploadSuccess }) {
         />
       </div>
 
-      {selectedFile && (
-        <div className="mt-8 bg-green-50 border border-green-300 rounded-xl p-5">
-          <p className="font-semibold text-green-700">✅ Ready for Analysis</p>
+      <div className="mt-8 space-y-5">
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
+            Target Job Title (Optional)
+          </label>
 
-          <p className="mt-2 font-medium text-gray-800">{selectedFile.name}</p>
+          <input
+            type="text"
+            placeholder="e.g. React Developer, AI Engineer"
+            value={jobTitle}
+            onChange={(e) => setJobTitle(e.target.value)}
+            disabled={loading}
+            className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+          />
+        </div>
 
-          <p className="text-sm text-gray-500 mt-1">
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
+            Job Description (Optional)
+          </label>
+
+          <textarea
+            rows="5"
+            placeholder="Paste the job description here..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            disabled={loading}
+            className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition resize-none"
+          />
+        </div>
+      </div>
+      {selectedFile && !analysisComplete && !loading && (
+        <div className="mt-8 bg-slate-50 border border-slate-200 rounded-2xl p-5">
+          <h3 className="font-semibold text-slate-800">📄 Selected File</h3>
+
+          <p className="mt-2 font-medium text-slate-900">{selectedFile.name}</p>
+
+          <p className="text-sm text-slate-500 mt-1">
             {(selectedFile.size / 1024).toFixed(2)} KB
           </p>
-
-          <div className="mt-4 text-sm text-gray-600 space-y-1">
-            <p>✔ ATS Score</p>
-            <p>✔ Skills Detection</p>
-            <p>✔ Missing Keywords</p>
-            <p>✔ AI Suggestions</p>
-          </div>
         </div>
       )}
 
       {loading && (
-        <div className="mt-6">
-          <div className="flex justify-between text-sm font-semibold text-blue-700 mb-2">
+        <div className="mt-8">
+          <div className="flex justify-between text-sm font-semibold text-indigo-700 mb-3">
             <span>{loadingText}</span>
             <span>{Math.round(progress)}%</span>
           </div>
 
-          <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+          <div className="w-full h-3 rounded-full bg-slate-200 overflow-hidden">
             <div
-              className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+              className="h-3 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 transition-all duration-300"
               style={{
                 width: `${progress}%`,
               }}
-            ></div>
+            />
+          </div>
+        </div>
+      )}
+
+      {analysisComplete && !loading && (
+        <div className="mt-8 bg-emerald-50 border border-emerald-200 rounded-2xl p-5">
+          <h3 className="font-semibold text-emerald-700">
+            ✅ Analysis Complete
+          </h3>
+
+          <p className="mt-2 font-medium text-slate-800">
+            Your resume has been analyzed successfully.
+          </p>
+
+          <div className="mt-4 text-sm text-slate-700 space-y-1">
+            <p>✔ ATS Score Generated</p>
+            <p>✔ Skills Identified</p>
+            <p>✔ Missing Keywords Found</p>
+            <p>✔ AI Suggestions Ready</p>
           </div>
         </div>
       )}
 
       <button
         onClick={handleUpload}
-        disabled={!selectedFile || loading}
+        disabled={loading}
         className={`mt-8 w-full py-4 rounded-xl text-lg font-semibold transition-all duration-300 ${
-          !selectedFile || loading
-            ? "bg-gray-300 cursor-not-allowed text-gray-500"
-            : "bg-blue-600 hover:bg-blue-700 text-white"
+          loading
+            ? "bg-slate-300 cursor-not-allowed text-slate-500"
+            : "bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-md hover:shadow-lg"
         }`}
       >
         {loading ? (
