@@ -4,6 +4,7 @@ import { FaRobot, FaUser, FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
 import API from "../services/api";
+import Swal from "sweetalert2";
 
 function Register() {
   const navigate = useNavigate();
@@ -32,10 +33,21 @@ function Register() {
       setError("");
 
       await API.post("/auth/register", formData);
-
-      alert("Registration Successful!");
+      await Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Account created successfully!",
+        showConfirmButton: false,
+        timer: 1800,
+        timerProgressBar: true,
+      });
 
       navigate("/");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Registration Failed");
     } finally {

@@ -6,8 +6,11 @@ import API from "../services/api";
 import { FaFileAlt, FaStar, FaRobot, FaCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
+  const { user } = useAuth();
+
   const [resumes, setResumes] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -79,7 +82,7 @@ function Dashboard() {
         </Link>
         {/* Header */}
         <h1 className="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">
-          👋 Welcome back!
+          👋 Welcome back, {user?.name || "User"}!
         </h1>
 
         <p className="text-lg text-slate-600 mt-3 max-w-2xl leading-8">
