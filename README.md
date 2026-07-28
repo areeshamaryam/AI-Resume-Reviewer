@@ -9,7 +9,7 @@ A Full Stack AI-powered web application that analyzes resumes against job descri
 - Express.js
 - MongoDB Atlas
 - JWT Authentication
-- OpenAI APInpm install express mongoose cors dotenv bcryptjs jsonwebtoken multer pdf-parse openai
+- Gemini API npm install express mongoose cors dotenv bcryptjs jsonwebtoken multer pdf-parse openai
 - Tailwind CSS
 
 ## Status
