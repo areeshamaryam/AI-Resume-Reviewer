@@ -54,9 +54,6 @@ ResumeIQ is a full-stack AI-powered Resume Analysis platform that helps users ev
 
 # 📁 Project Structure
 
-````text
-## 📂 Project Structure
-
 ```text
 AI-RESUME-REVIEWER/
 │
