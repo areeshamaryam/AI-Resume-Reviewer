@@ -303,11 +303,8 @@ Features include:
 
 ---
 
-<<<<<<< HEAD
-# Author
-=======
+
 #  Author
->>>>>>> 9f4a3efb18ec089eaf16e792f39e77a582eaa99b
 
 **Areesha Maryam**
 
