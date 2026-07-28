@@ -73,7 +73,9 @@ function Login() {
         {/* Card */}
 
         <div className="bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-xl p-10">
-          <h2 className="text-3xl font-bold text-slate-900">Welcome Back</h2>
+          <h2 className="text-3xl font-bold text-slate-900">
+            Welcome to ResumeIQ
+          </h2>
 
           <p className="text-slate-500 mt-2">Sign in to continue.</p>
 

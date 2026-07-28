@@ -44,108 +44,138 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-indigo-50 to-slate-100 flex items-center justify-center px-6 py-12">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-6xl grid lg:grid-cols-2 bg-white rounded-3xl overflow-hidden shadow-2xl"
+        initial={{ opacity: 0, y: 35 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45 }}
+        className="w-full max-w-md"
       >
-        {/* Left Side */}
-        <div className="hidden lg:flex flex-col justify-center bg-gradient-to-br from-blue-600 via-cyan-500 to-indigo-700 text-white p-16">
-          <FaRobot size={70} />
+        {/* Logo */}
 
-          <h1 className="text-5xl font-bold mt-8">ResumeIQ AI</h1>
+        <div className="flex flex-col items-center mb-10">
+          <div className="w-20 h-20 rounded-3xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-xl flex items-center justify-center">
+            <FaRobot className="text-white text-4xl" />
+          </div>
 
-          <p className="mt-6 text-lg">
-            Create your free account and improve your resume with AI.
+          <h1 className="mt-5 text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+            ResumeIQ
+          </h1>
+
+          <p className="mt-3 text-slate-500 text-center">
+            AI-powered Resume Analysis Platform
           </p>
         </div>
 
-        {/* Right Side */}
-        <div className="p-12">
-          <h2 className="text-4xl font-bold">Create Account</h2>
+        {/* Card */}
 
-          <p className="text-gray-500 mt-3">
-            Join ResumeIQ AI and start analyzing your resume with AI.
+        <div className="bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-xl p-10">
+          <h2 className="text-3xl font-bold text-slate-900">Create Account</h2>
+
+          <p className="text-slate-500 mt-2">
+            Join ResumeIQ and start analyzing your resume with AI.
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-10 space-y-6">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             {/* Name */}
-            <div>
-              <label className="font-semibold">Name</label>
 
-              <div className="flex items-center border rounded-xl px-4 mt-2">
-                <FaUser className="text-gray-400" />
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
+                Full Name
+              </label>
+
+              <div className="flex items-center rounded-xl border border-slate-300 bg-slate-50 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 transition">
+                <FaUser className="ml-4 text-slate-400" />
 
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full p-4 outline-none"
-                  placeholder="Full Name"
+                  placeholder="Enter your name"
+                  className="w-full bg-transparent p-4 outline-none text-slate-700 placeholder:text-slate-400"
                   required
                 />
               </div>
             </div>
 
             {/* Email */}
-            <div>
-              <label className="font-semibold">Email</label>
 
-              <div className="flex items-center border rounded-xl px-4 mt-2">
-                <MdEmail className="text-gray-400" />
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
+                Email Address
+              </label>
+
+              <div className="flex items-center rounded-xl border border-slate-300 bg-slate-50 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 transition">
+                <MdEmail className="ml-4 text-slate-400 text-xl" />
 
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full p-4 outline-none"
-                  placeholder="Email Address"
+                  placeholder="Enter your email"
+                  className="w-full bg-transparent p-4 outline-none text-slate-700 placeholder:text-slate-400"
                   required
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div>
-              <label className="font-semibold">Password</label>
 
-              <div className="flex items-center border rounded-xl px-4 mt-2">
-                <FaLock className="text-gray-400" />
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
+                Password
+              </label>
+
+              <div className="flex items-center rounded-xl border border-slate-300 bg-slate-50 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 transition">
+                <FaLock className="ml-4 text-slate-400" />
 
                 <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full p-4 outline-none"
-                  placeholder="Password"
+                  placeholder="Create password"
+                  className="w-full bg-transparent p-4 outline-none text-slate-700 placeholder:text-slate-400"
                   required
                 />
               </div>
             </div>
 
-            {error && <p className="text-red-600 text-sm">{error}</p>}
+            {error && (
+              <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-600 text-sm">
+                {error}
+              </div>
+            )}
+
+            {/* Button */}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-semibold transition"
+              className="w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-70"
             >
               {loading ? "Creating Account..." : "Register"}
             </button>
           </form>
 
-          <p className="mt-8 text-center">
-            Already have an account?
-            <Link to="/" className="ml-2 text-blue-600 font-semibold">
-              Login
-            </Link>
-          </p>
+          <div className="mt-8 border-t border-slate-200 pt-6">
+            <p className="text-center text-slate-600">
+              Already have an account?
+              <Link
+                to="/"
+                className="ml-2 font-semibold text-indigo-600 hover:text-violet-600 transition"
+              >
+                Login
+              </Link>
+            </p>
+          </div>
         </div>
+
+        <p className="mt-8 text-center text-sm text-slate-500">
+          Smart ATS Scoring • AI Feedback • Resume Optimisation
+        </p>
       </motion.div>
     </div>
   );

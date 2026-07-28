@@ -190,7 +190,9 @@ duration-300 p-6 text-center"
             <p className="text-gray-500">Missing Skills</p>
 
             <h2 className="text-4xl font-bold text-yellow-600 mt-2">
-              {resume.missingSkills.length}
+              {resume.missingSkills.length === 0
+                ? "None"
+                : resume.missingSkills.length}
             </h2>
           </div>
 
@@ -261,25 +263,42 @@ duration-300 p-6 text-center"
           </div>
 
           {/* Missing Skills */}
-          <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <FaTools className="text-amber-500 text-3xl" />
 
-              <h2 className="text-2xl font-bold text-amber-600">
-                Missing Skills
-              </h2>
+          {resume.missingSkills && resume.missingSkills.length > 0 ? (
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <FaTools className="text-amber-500 text-3xl" />
+
+                <h2 className="text-2xl font-bold text-amber-600">
+                  Missing Skills
+                </h2>
+              </div>
+
+              <ul className="space-y-3">
+                {resume.missingSkills.map((item, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="text-yellow-600">🛠</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
+          ) : (
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-green-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <FaCheckCircle className="text-green-600 text-3xl" />
 
-            <ul className="space-y-3">
-              {resume.missingSkills.map((item, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <span className="text-yellow-600">🛠</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+                <h2 className="text-2xl font-bold text-green-600">
+                  Perfect Skill Match
+                </h2>
+              </div>
 
+              <p className="text-gray-700 leading-7">
+                Your resume covers the major skills required for this position.
+                No significant skill gaps were detected.
+              </p>
+            </div>
+          )}
           {/* Suggestions */}
 
           <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-8">
