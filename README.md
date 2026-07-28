@@ -1,4 +1,4 @@
-# 📄 ResumeIQ – AI-Resume-Reviewer
+#  ResumeIQ – AI-Resume-Reviewer
 
 ResumeIQ is a full-stack AI-powered Resume Analysis platform that helps users evaluate and improve their resumes using Google's Gemini API. Users can securely upload PDF resumes, compare them against a target job description, receive an ATS compatibility score, identify missing skills, and get AI-generated recommendations to improve their chances of passing Applicant Tracking Systems (ATS).
 
@@ -214,7 +214,7 @@ http://localhost:5000
 
 ---
 
-# How to Use
+# 4. How to Use
 
 1. Register a new account.
 2. Login securely.
@@ -233,7 +233,7 @@ http://localhost:5000
 
 ---
 
-# AI Analysis
+# 5. AI Analysis
 
 ResumeIQ uses Google's Gemini API to generate intelligent resume feedback.
 
@@ -249,7 +249,7 @@ The AI provides:
 
 ---
 
-# Authentication
+# 6. Authentication
 
 The application implements secure authentication using JWT.
 
@@ -263,7 +263,7 @@ Features include:
 
 ---
 
-# Screenshots
+# 7. Screenshots
 
 ## Login
 
@@ -321,7 +321,7 @@ https://linkedin.com/in/areesha-maryam-57a41228a
 
 ---
 
-# Acknowledgements
+# 8. Acknowledgements
 
 This project was built using:
 
