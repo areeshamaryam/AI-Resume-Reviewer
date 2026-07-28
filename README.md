@@ -148,9 +148,9 @@ AI-RESUME-REVIEWER/
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/ResumeIQ.git
+git clone https://github.com/areeshamaryam/AI-Resume-Reviewer
 
-cd ResumeIQ
+cd AI-Resume-Reviewer
 ````
 
 ---
