@@ -293,7 +293,7 @@ Features include:
 
 ## AI Resume Analysis
 
-### ATS Score
+### AI Feedback
 
 ![Analysis](screenshots/analysis.PNG)
 
